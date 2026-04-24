@@ -1,0 +1,46 @@
+[
+  {
+    "_id": "p1",
+    "projectName": "Landing Page Redesign",
+    "clientName": "ABC Corporation",
+    "assignedUsers": ["u2","u3"],
+    "startDate": "01-01-2026",
+    "endDate": "13-01-2026",
+    "amount": "450",
+    "deadlineStatus": "today",
+    "status": "running"
+  },
+  {
+    "_id": "p2",
+    "projectName": "CRM Dashboard Development",
+    "clientName": "XYZ Ltd",
+    "amount": "750",
+    "assignedUsers": ["u2"],
+    "startDate": "28-12-2025",
+    "endDate": "14-01-2026",
+    "deadlineStatus": "tomorrow",
+    "status": "running"
+  },
+  {
+    "_id": "p3",
+    "projectName": "E-commerce Bug Fix",
+    "clientName": "Online Shop",
+    "assignedUsers": ["u3"],
+    "startDate": "20-12-2025",
+    "endDate": "10-01-2026",
+    "amount": "250",
+    "deadlineStatus": "late",
+    "status": "late"
+  },
+  {
+    "_id": "p4",
+    "projectName": "Blog Website Bug Fix",
+    "clientName": "Online Shop",
+    "assignedUsers": ["u3"],
+    "startDate": "05-01-2026",
+    "endDate": "28-01-2026",
+    "amount": "250",
+    "deadlineStatus": "late",
+    "status": "late"
+  }
+]

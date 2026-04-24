@@ -1,0 +1,44 @@
+[
+  {
+    "_id": "t1",
+    "userId": "u2",
+    "userName": "Rahim Khan",
+    "clientName":"Ahmed Elomda",
+    "projectId": "p1",
+    "amount":250,
+    "projectName": "Landing Page Redesign",
+    "teamName":"Code Titans",
+    "workSummary": "Fixed responsive issues on homepage",
+    "timeSpent": 2.5,
+    "createdAt": "2026-01-13T10:30:00Z",
+    "status": "normal"
+  },
+  {
+    "_id": "t2",
+    "userId": "u3",
+    "userName": "Karim Ahmed",
+    "clientName":"Sarasira",
+    "projectId": "p2",
+    "amount":120,
+    "projectName": "CRM Dashboard Development",
+    "teamName":"Code Hunter",
+    "workSummary": "Completed API integration for user module",
+    "timeSpent": 3,
+    "createdAt": "2026-01-13T09:10:00Z",
+    "status": "important"
+  },
+  {
+    "_id": "t3",
+    "userId": "u3",
+    "userName": "Karim Ahmed",
+    "clientName":"Bonnie",
+    "projectId": "p3",
+    "amount":750,
+    "projectName": "E-commerce Bug Fix",
+    "teamName":"Code Titans",
+    "workSummary": "Submitted late task update due to server issue",
+    "timeSpent": 1.5,
+    "createdAt": "2026-01-12T18:40:00Z",
+    "status": "late"
+  }
+]
