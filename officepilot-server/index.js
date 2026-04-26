@@ -63,8 +63,6 @@ async function run() {
       res.send({ token });
     });
 
-    // =========================================================================================================================
-
     // TOKEN VERIFY
     const TokenVerify = (req, res, next) => {
       const tokenData = req?.headers?.authorization;
@@ -109,6 +107,19 @@ async function run() {
       };
     };
 
+
+    // find user
+     app.get("/user", async (req, res) => {
+      const userEmail = req.query.email;
+      const email = { email: userEmail };
+      const data = await userCollections.findOne(email);
+
+      res.status(200).send({ status: "Successfull", data: data });
+    });
+
+
+
+
     // ======================================================================================================= //
     //============================================= PUBLIC ROUTES ============================================ //
 
@@ -129,7 +140,7 @@ async function run() {
         team: "Unassigned",
         serviceType: "Unassigned",
         department: "Unassigned",
-        role: "member",
+        role: "guest",
         designation: "Wordrpess Developer",
         profile_pic: "https://i.pravatar.cc/150?img=2",
       };
@@ -138,13 +149,41 @@ async function run() {
       res.status(200).send({ status: "Successfull", data: result });
     });
 
-    // ======================================================================================================= //
-    // 2. ADMIN ROUTES
+
 
     // ======================================================================================================= //
-    // 3. ADMIN & LEADER ROUTES
+    //============================================= ADMIN ROUTES ============================================ //
 
-    app.post( "/add-project", TokenVerify, verifyRole(["admin", "leader"]), async (req, res) => {
+    //1. leader add
+    //2. leader remove
+    //3. Notice Apporve
+    //4. Notice Reject
+    
+
+    // ======================================================================================================= //
+    // =================================  ADMIN, LEADERS  ====================================== //
+    
+    //1. Employee add
+    //2. Employee remove
+    //3. Team leader add
+    //4. Team leader remove
+    //5. Member notice request feedback
+
+
+    // ======================================================================================================= //
+    //============================================= LEADER ROUTES ============================================ //
+
+
+    //3. Notice add request
+    //4. Notice remove request
+
+
+    // ======================================================================================================= //
+    //============================================= SALES-MAN ROUTES ============================================ //
+
+    //1. add project 
+    app.post("/add-project",TokenVerify,verifyRole(["admin", "leader", "salesman"]),
+      async (req, res) => {
         const project = req.body;
 
         const projectData = {
@@ -158,49 +197,54 @@ async function run() {
       },
     );
 
+    //2. edit project 
+
+
+
+
     // ======================================================================================================= //
     // =================================  ADMIN, LEADERS, TEAM-LEADERS  ====================================== //
-    
+
     // PROJECT ASSIGN
-    app.patch("/assign-project/:id",TokenVerify, verifyRole(["admin", "leader", "team leader"]), async (req, res) => {
-      const id = req.params.id;
-      const reqBody = req.body;
+    app.patch("/assign-project/:id",TokenVerify,verifyRole(["admin", "leader", "team leader"]),
+      async (req, res) => {
+        const id = req.params.id;
+        const reqBody = req.body;
 
-      const query = { projectId: id };
+        const query = { projectId: id };
 
-      const AssignProject = {
-        $set: {
-          ...reqBody,
-          updatedAt: new Date(),
-        },
-      };
+        const AssignProject = {
+          $set: {
+            ...reqBody,
+            updatedAt: new Date(),
+          },
+        };
 
-      try {
-        const project = await projectCollections.updateOne(
-          query,
-          AssignProject,
-        );
-        if (!project) {
-          return res.status(404).send({ message: "Not found this project!" });
+        try {
+          const project = await projectCollections.updateOne(
+            query,
+            AssignProject,
+          );
+          if (!project) {
+            return res.status(404).send({ message: "Not found this project!" });
+          }
+
+          res.status(200).send({ Status: "Successfull", data: project });
+        } catch (error) {
+          console.error("Something is wrong:", error);
+          res.status(404).send({ message: "Something is wrong:" });
         }
-
-        res.status(200).send({ Status: "Successfull", data: project });
-      } catch (error) {
-        console.error("Something is wrong:", error);
-        res.status(404).send({ message: "Something is wrong:" });
-      }
-    });
+      },
+    );
 
 
-    // ======================================================================================================= //
-    // 4. MEMBER ROUTES
 
 
     // ======================================================================================================= //
     // =========================  ADMIN, LEADERS, TEAM-LEADERS, MEMBER ROUTES  =============================== //
 
-    // ALL PROJECT
-    app.get("/projects", TokenVerify, verifyRole(["admin", "leader", "team leader", "member"]), async (req, res) => {
+    //1. ALL PROJECT
+    app.get("/projects",TokenVerify,verifyRole(["admin", "leader", "team leader", "member"]),async (req, res) => {
         try {
           const userRole = req.decoded.role;
           const UserDepartment = req.decoded.department;
@@ -222,7 +266,6 @@ async function run() {
 
           const result = await projectCollections.find(query).toArray();
 
-
           if (!result) {
             return res.status(404).send({ message: "No projects found" });
           }
@@ -235,65 +278,81 @@ async function run() {
       },
     );
 
+    //2. PROJECT DETAILS
+    app.get("/project/:id",TokenVerify,verifyRole(["admin", "leader", "team leader", "member"]),async (req, res) => {
+        try {
+          const id = req.params.id;
 
-    // PROJECT DETAILS
-    app.get("/project/:id", TokenVerify, verifyRole(["admin", "leader", "team leader", "member"]), async (req, res) => {
-      try {
-        const id = req.params.id;
+          if (!ObjectId.isValid(id)) {
+            return res
+              .status(400)
+              .send({ message: "Invalid Project ID format" });
+          }
 
-        if (!ObjectId.isValid(id)) {
-          return res.status(400).send({ message: "Invalid Project ID format" });
+          const query = { _id: new ObjectId(id) };
+          const result = await projectCollections.findOne(query);
+
+          if (!result) {
+            return res.status(404).send({ message: "Project not found" });
+          }
+
+          res.status(200).send({ status: "Successfull", data: result });
+        } catch (error) {
+          console.error("Error:", error);
+          res.status(404).send({ message: "Internal Server Error" });
         }
+      },
+    );
 
-        const query = { _id: new ObjectId(id) };
-        const result = await projectCollections.findOne(query);
+    //3. Project Update page
+    app.patch("/update-project/:id",TokenVerify,verifyRole(["admin", "leader", "team leader", "member"]),async (req, res) => {
+        try {
+          const id = req.params.id;
+          const updateData = req.body;
 
-        if (!result) {
-          return res.status(404).send({ message: "Project not found" });
+          // if (!ObjectId.isValid(id)) {
+          //     return res.status(400).send({ message: "Invalid Project ID format" });
+          // }
+
+          const query = { _id: new ObjectId(id) };
+
+          const updateDoc = {
+            $set: {
+              ...updateData,
+              updatedAt: new Date(),
+            },
+          };
+
+          const result = await projectCollections.updateOne(query, updateDoc, {
+            upsert: true,
+          });
+
+          if (!result) {
+            return res.status(404).send({ message: "Project not found" });
+          }
+
+          res.status(200).send({ status: "Update Successfull", data: result });
+        } catch (error) {
+          console.error("Error:", error);
+          res.status(404).send({ message: "Internal Server Error" });
         }
+      },
+    );
 
-        res.status(200).send({ status: "Successfull", data: result });
-      } catch (error) {
-        console.error("Error:", error);
-        res.status(404).send({ message: "Internal Server Error" });
-      }
-    });
+    //4. Project Complete Request
+    //5. Others
 
-    // Project Update page
-    app.patch("/update-project/:id", TokenVerify, verifyRole(["admin", "leader", "team leader", "member"]), async (req, res) => {
-      try {
-        const id = req.params.id;
-        const updateData = req.body;
 
-        // if (!ObjectId.isValid(id)) {
-        //     return res.status(400).send({ message: "Invalid Project ID format" });
-        // }
+    // ======================================================================================================= //
+    //============================================= MEMBER ROUTES ============================================ //
 
-        const query = { _id: new ObjectId(id) };
+    //1. Employee add
+    //2. Employee remove
+    //3. Notice add request
+    //4. Notice remove request
 
-        const updateDoc = {
-          $set: {
-            ...updateData,
-            updatedAt: new Date(),
-          },
-        };
-
-        const result = await projectCollections.updateOne(query, updateDoc, {
-          upsert: true,
-        });
-
-        if (!result) {
-          return res.status(404).send({ message: "Project not found" });
-        }
-
-        res.status(200).send({ status: "Update Successfull", data: result });
-      } catch (error) {
-        console.error("Error:", error);
-        res.status(404).send({ message: "Internal Server Error" });
-      }
-    });
-
-    
+    // ======================================================================================================= //
+    //============================================= MEMBER ROUTES ============================================ //
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });

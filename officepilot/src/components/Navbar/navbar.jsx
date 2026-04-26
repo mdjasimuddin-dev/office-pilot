@@ -1,195 +1,62 @@
-import React, { use } from "react";
-import {
-  Search,
-  BellDot,
-  Grid3X3,
-  BriefcaseBusiness,
-  UserCircle2,
-  Settings,
-  LifeBuoy,
-  LogOut,
-  PanelLeftClose,
-  LayoutGrid,
-  LogIn,
-  LogsIcon,
-  LogInIcon,
-} from "lucide-react";
-import AuthContext from "../../Context/AuthContext";
-import { NavLink } from "react-router";
+import { MdSearch, MdNotificationsNone, MdKeyboardArrowDown } from "react-icons/md";
+import logo from "./../../assets/logo.png"; // আপনার লোগো পাথ
 
 const Navbar = () => {
-  const { user, logOut } = use(AuthContext);
-
-  const handleSignOut = () => {
-    logOut();
-  };
-
   return (
-    // Main Container with Frost & Subtle Pattern
-    <div className="sticky top-0 z-50">
-      <nav
-        className="navbar bg-orange-400/90 backdrop-blur-md shadow-2xl shadow-black/10 border border-white/10"
-        style={{
-          backgroundImage:
-            'url(\'data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\')',
-        }}
-      >
-        {/* Navbar Start: Symmetry & Primary Navigation */}
-        <div className="navbar-start gap-1">
-          {/* Main Workspace Icon */}
-          <button className="btn btn-ghost text-white hidden lg:flex gap-2">
-            <LayoutGrid size={22} className="opacity-80" />
-            <span className="font-semibold text-lg tracking-wide">
-              Workspace
-            </span>
-          </button>
-          {/* Sidebar Toggle for smaller screens */}
-          <div className="lg:hidden dropdown dropdown-bottom">
-            <button
-              tabIndex={0}
-              className="btn btn-ghost btn-circle text-white"
-            >
-              <PanelLeftClose size={24} />
-            </button>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-2xl bg-base-100 rounded-xl w-56 border border-gray-200"
-            >
-              <li className="menu-title text-gray-400 font-bold">Quick Nav</li>
-              <li>
-                <a>
-                  <LayoutGrid size={16} className="mr-1" /> Overview
-                </a>
-              </li>
-              <li>
-                <a>
-                  <BriefcaseBusiness size={16} className="mr-1" /> Projects
-                </a>
-              </li>
-            </ul>
+    <nav className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md border-b border-slate-100">
+      {/* Container limited to 1600px to match MainLayout */}
+      <div className="max-w-[1600px] mx-auto px-4 md:px-10 h-20 flex items-center justify-between">
+        
+        {/* Left Side: Brand/Context */}
+        <div className="flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-2 bg-slate-50 px-4 py-2 rounded-2xl border border-slate-100">
+            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">System Active</span>
           </div>
         </div>
 
-        {/* Navbar Center: Core Branding */}
-        <div className="navbar-center">
-          <a className="font-bold text-3xl text-white tracking-tighter flex items-end">
-            MJ SOFT{" "}
-            <span className="font-light text-2xl opacity-90 ml-1 pb-px">
-              Office Pilot
-            </span>
-          </a>
+        {/* Center: Search Bar (Refined width) */}
+        <div className="hidden md:flex flex-1 max-w-md mx-10">
+          <div className="relative w-full group">
+            <MdSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl group-focus-within:text-[#FE7F2D] transition-colors" />
+            <input 
+              type="text" 
+              placeholder="Search projects, tasks..." 
+              className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-2.5 pl-12 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/10 focus:border-[#FE7F2D] transition-all"
+            />
+          </div>
         </div>
 
-        {/* Navbar End: Optimized User & Tools Section */}
-        <div className="navbar-end gap-1.5">
-          {/* Search Tools (Optimized) */}
-          <button className="btn btn-ghost btn-circle text-white hover:bg-white/10 transition-all">
-            <Search size={22} className="opacity-80" />
+        {/* Right Side: Actions & Profile */}
+        <div className="flex items-center gap-3 md:gap-6">
+          {/* Notifications */}
+          <button className="relative p-2.5 bg-slate-50 text-slate-500 rounded-xl hover:bg-orange-50 hover:text-[#FE7F2D] transition-all group">
+            <MdNotificationsNone className="text-2xl" />
+            <span className="absolute top-2 right-2.5 w-2 h-2 bg-orange-500 rounded-full border-2 border-white" />
           </button>
 
-          {/* Premium Notifications */}
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle text-white hover:bg-white/10 group"
-            >
-              <div className="indicator">
-                <BellDot
-                  size={22}
-                  className="opacity-80 group-hover:scale-110 transition-transform"
-                />
-                <span className="badge badge-xs bg-[#EE3B22] border-none indicator-item shadow-sm"></span>
-              </div>
-            </div>
-            <div
-              tabIndex={0}
-              className="mt-4 z-[1] card card-compact dropdown-content w-72 bg-base-100 shadow-2xl rounded-2xl border border-gray-100"
-            >
-              <div className="card-body">
-                <h3 className="font-bold text-lg text-gray-800">
-                  Alerts & Status
-                </h3>
-                <p className="text-gray-500 text-sm">
-                  No critical project alerts. Enjoy your flow.
-                </p>
-                <div className="card-actions justify-end mt-2">
-                  <button className="btn btn-sm btn-ghost text-orange-600">
-                    Mark all Read
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Vertical Divider */}
+          <div className="h-8 w-[1px] bg-slate-200 hidden sm:block" />
 
-          {/* Premium User Profile Section */}
-          <div className="divider divider-horizontal border-white/10 mx-1 hidden md:block"></div>
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="flex items-center gap-3 pl-2 pr-1 py-1 rounded-full cursor-pointer hover:bg-white/10 transition-all"
-            >
-              <div className="text-right hidden md:block">
-                <span className="block font-semibold text-white">
-                  {user?.displayName || "Guest User"}
-                </span>
-                <span className="block text-xs font-medium text-white/70">
-                  {user?.role || "Regular guest"}
-                </span>
-              </div>
-              <div className="avatar placeholder online shadow-lg">
-                <div className="bg-white text-orange-600 rounded-full w-12 border-4 border-white/40">
-                  {/* <span className="text-sm font-bold">JD</span> */}
-                  <img className="rounded-full" src={user?.photoURL} alt="" />
-                </div>
-              </div>
+          {/* User Profile */}
+          <div className="flex items-center gap-3 cursor-pointer group">
+            <div className="text-right hidden sm:block">
+              <p className="text-sm font-black text-slate-800 leading-tight">Md Jasim Uddin</p>
+              <p className="text-[10px] font-bold text-orange-500 uppercase tracking-tighter">Administrator</p>
             </div>
-            <ul
-              tabIndex={0}
-              className="mt-4 z-[1] p-2 shadow-2xl menu dropdown-content bg-base-100 rounded-2xl w-56 border border-gray-100 gap-1"
-            >
-              <li className="menu-title text-gray-400 font-bold md:hidden">
-                My Account
-              </li>
-              <li>
-                <a>
-                  <UserCircle2 size={18} className="text-orange-600" /> View
-                  Profile
-                </a>
-              </li>
-              <li>
-                <a>
-                  <Settings size={18} /> Workspace Settings
-                </a>
-              </li>
-              <li>
-                <a>
-                  <LifeBuoy size={18} /> Help & Support
-                </a>
-              </li>
-              <div className="divider my-1 opacity-60"></div>
-              {/* Sign Out  */}
-
-              {/* Sign In When user not login  */}
-              {user ? (
-                <li className="text-error font-medium">
-                  <a onClick={handleSignOut}>
-                    <LogOut size={18} /> Sign Out
-                  </a>
-                </li>
-              ) : (
-                <li className="text-error font-medium">
-                  <NavLink to="login">
-                    <LogIn size={18} /> Sign In
-                  </NavLink>
-                </li>
-              )}
-            </ul>
+            <div className="relative">
+              <img 
+                src="https://i.pravatar.cc/150?u=jasim" 
+                className="w-11 h-11 rounded-2xl object-cover border-2 border-white shadow-sm group-hover:border-orange-200 transition-all" 
+                alt="Profile" 
+              />
+              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full" />
+            </div>
+            <MdKeyboardArrowDown className="text-slate-400 group-hover:text-slate-800 transition-colors" />
           </div>
         </div>
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
 };
 
