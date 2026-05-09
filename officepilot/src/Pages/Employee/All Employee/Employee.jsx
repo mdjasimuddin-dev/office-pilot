@@ -31,6 +31,7 @@ const Employees = () => {
         type: "Leader",
         activeProjects: 2,
         rating: "4.9",
+        team:"Code Hunter",
         email: "arif@company.com",
       },
       {
@@ -42,6 +43,7 @@ const Employees = () => {
         type: "Member",
         activeProjects: 3,
         rating: "4.7",
+        team:"Code Hunter",
         email: "mahmud@company.com",
       },
       {
@@ -53,6 +55,7 @@ const Employees = () => {
         type: "Member",
         activeProjects: 1,
         rating: "5.0",
+        team:"Code Hunter",
         email: "jasim@company.com",
       },
       {
@@ -64,6 +67,7 @@ const Employees = () => {
         type: "Leader",
         activeProjects: 4,
         rating: "4.8",
+        team:"Code Hunter",
         email: "sumaiya@company.com",
       },
       {
@@ -75,6 +79,7 @@ const Employees = () => {
         type: "Member",
         activeProjects: 2,
         rating: "4.6",
+        team:"Code Hunter",
         email: "anika@company.com",
       },
       {
@@ -86,6 +91,7 @@ const Employees = () => {
         type: "Member",
         activeProjects: 0,
         rating: "4.5",
+        team:"Code Hunter",
         email: "tanvir@company.com",
       },
       {
@@ -98,6 +104,7 @@ const Employees = () => {
         status: "Not Active",
         activeProjects: 1,
         rating: "4.9",
+        team:"Code Hunter",
         email: "rashed@company.com",
       },
       {
@@ -110,6 +117,7 @@ const Employees = () => {
         activeProjects: 3,
         status: "Available",
         rating: "4.7",
+        team:"Code Hunter",
         email: "nadia@company.com",
       },
       {
@@ -122,11 +130,13 @@ const Employees = () => {
         status: "Available",
         activeProjects: 2,
         rating: "4.8",
+        team:"Code Hunter",
         email: "fahim@company.com",
       },
     ];
     setEmployees(teamData);
   }, []);
+
 
   const filteredEmployees = employees.filter((emp) => {
     const matchesDept = filterDept === "All" || emp.department === filterDept;

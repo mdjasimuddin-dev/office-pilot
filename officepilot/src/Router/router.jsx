@@ -218,7 +218,7 @@ const router = createBrowserRouter([
       // ===========================================================================
       // ============================ GUEST USER ROUTE =============================
       {
-        path: "projects",
+        path: "admin/all-projects",
         element: (
           <ProtectedRoute>
             <ProjectList />

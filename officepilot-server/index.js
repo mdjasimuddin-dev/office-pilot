@@ -38,6 +38,8 @@ async function run() {
     const db = client.db("ProjectManagement");
     const projectCollections = db.collection("projects");
     const userCollections = db.collection("users");
+    const employeesCollection = db.collection("employees");
+    const departmentsCollection = db.collection("departments");
 
     // ======================================================================================================= //
     //============================================= COMMON ROUTES ============================================ //
@@ -107,18 +109,14 @@ async function run() {
       };
     };
 
-
     // find user
-     app.get("/user", async (req, res) => {
+    app.get("/user", async (req, res) => {
       const userEmail = req.query.email;
       const email = { email: userEmail };
       const data = await userCollections.findOne(email);
 
       res.status(200).send({ status: "Successfull", data: data });
     });
-
-
-
 
     // ======================================================================================================= //
     //============================================= PUBLIC ROUTES ============================================ //
@@ -149,40 +147,84 @@ async function run() {
       res.status(200).send({ status: "Successfull", data: result });
     });
 
-
-
     // ======================================================================================================= //
     //============================================= ADMIN ROUTES ============================================ //
+
+    app.get("/employees", async (req, res) => {
+      try {
+        // const userRole = req.decoded.role;
+        // const UserDepartment = req.decoded.department;
+        // const UserTeam = req.decoded.team;
+
+        // const email = req.query.email
+
+        // console.log(UserEmail);
+        // let query = {};
+
+        // if (userRole === "admin") {
+        //   query = {};
+        // } else if (userRole == "leader") {
+        //   query = { department: UserDepartment };
+        // } else if (userRole == "team leader") {
+        //   query = { team: UserTeam };
+        // }
+
+        const result = await employeesCollection.find().toArray();
+
+        if (!result) {
+          return res.status(404).send({ message: "No employee data found" });
+        }
+
+        res.status(200).send(result);
+      } catch (error) {
+        console.error("Something is wrong:", error);
+        res.status(404).send({ message: "Something is wrong:" });
+      }
+    });
+
+    app.get("/departments", async (req, res) => {
+      try {
+        const result = await departmentsCollection.find().toArray();
+
+        if (!result) {
+          return res.status(404).send({ message: "No department data found" });
+        }
+
+        res.status(200).send(result);
+      } catch (error) {
+        console.error("Something is wrong:", error);
+        res.status(404).send({ message: "Something is wrong:" });
+      }
+    });
 
     //1. leader add
     //2. leader remove
     //3. Notice Apporve
     //4. Notice Reject
-    
 
     // ======================================================================================================= //
     // =================================  ADMIN, LEADERS  ====================================== //
-    
+
     //1. Employee add
     //2. Employee remove
     //3. Team leader add
     //4. Team leader remove
     //5. Member notice request feedback
 
-
     // ======================================================================================================= //
     //============================================= LEADER ROUTES ============================================ //
-
 
     //3. Notice add request
     //4. Notice remove request
 
-
     // ======================================================================================================= //
     //============================================= SALES-MAN ROUTES ============================================ //
 
-    //1. add project 
-    app.post("/add-project",TokenVerify,verifyRole(["admin", "leader", "salesman"]),
+    //1. add project
+    app.post(
+      "/add-project",
+      TokenVerify,
+      verifyRole(["admin", "leader", "salesman"]),
       async (req, res) => {
         const project = req.body;
 
@@ -197,16 +239,16 @@ async function run() {
       },
     );
 
-    //2. edit project 
-
-
-
+    //2. edit project
 
     // ======================================================================================================= //
     // =================================  ADMIN, LEADERS, TEAM-LEADERS  ====================================== //
 
     // PROJECT ASSIGN
-    app.patch("/assign-project/:id",TokenVerify,verifyRole(["admin", "leader", "team leader"]),
+    app.patch(
+      "/assign-project/:id",
+      TokenVerify,
+      verifyRole(["admin", "leader", "team leader"]),
       async (req, res) => {
         const id = req.params.id;
         const reqBody = req.body;
@@ -237,14 +279,15 @@ async function run() {
       },
     );
 
-
-
-
     // ======================================================================================================= //
     // =========================  ADMIN, LEADERS, TEAM-LEADERS, MEMBER ROUTES  =============================== //
 
     //1. ALL PROJECT
-    app.get("/projects",TokenVerify,verifyRole(["admin", "leader", "team leader", "member"]),async (req, res) => {
+    app.get(
+      "/projects",
+      TokenVerify,
+      verifyRole(["admin", "leader", "team leader", "member"]),
+      async (req, res) => {
         try {
           const userRole = req.decoded.role;
           const UserDepartment = req.decoded.department;
@@ -279,7 +322,11 @@ async function run() {
     );
 
     //2. PROJECT DETAILS
-    app.get("/project/:id",TokenVerify,verifyRole(["admin", "leader", "team leader", "member"]),async (req, res) => {
+    app.get(
+      "/project/:id",
+      TokenVerify,
+      verifyRole(["admin", "leader", "team leader", "member"]),
+      async (req, res) => {
         try {
           const id = req.params.id;
 
@@ -305,7 +352,11 @@ async function run() {
     );
 
     //3. Project Update page
-    app.patch("/update-project/:id",TokenVerify,verifyRole(["admin", "leader", "team leader", "member"]),async (req, res) => {
+    app.patch(
+      "/update-project/:id",
+      TokenVerify,
+      verifyRole(["admin", "leader", "team leader", "member"]),
+      async (req, res) => {
         try {
           const id = req.params.id;
           const updateData = req.body;
@@ -341,7 +392,6 @@ async function run() {
 
     //4. Project Complete Request
     //5. Others
-
 
     // ======================================================================================================= //
     //============================================= MEMBER ROUTES ============================================ //
