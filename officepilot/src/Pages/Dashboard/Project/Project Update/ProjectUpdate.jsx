@@ -34,7 +34,7 @@ export default function ProjectUpdate() {
 
   useEffect(() => {
     if (!id) return;
-    axios.get(`http://localhost:3000/project/${id}`)
+    axiosSecure.get(`/project/${id}`)
       .then(res => setProject(res.data.data))
       .catch(err => console.error(err));
   }, [id]);
@@ -71,7 +71,7 @@ export default function ProjectUpdate() {
     };
 
     try {
-      const res = await axios.patch(`http://localhost:3000/update-project/${id}`, payload);
+      const res = await axiosSecure.patch(`/update-project/${id}`, payload);
       console.log("Project updated: ", res.data.data)
       setSubmitted(true);
       setTimeout(() => navigate(`http://localhost:3000/project-details/${id}`), 1800);

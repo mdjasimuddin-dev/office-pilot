@@ -96,11 +96,8 @@ const SideMenu = () => {
                 label="Admin Console"
               />
               <CollapsibleMenu icon={MdGroups} label="User Management">
-                <SubMenuLink to="/admin/manage-users" label="All Users" />
-                <SubMenuLink
-                  to="/admin/role-permissions"
-                  label="Roles & Permissions"
-                />
+                <SubMenuLink to="/admin/all-users" label="All Users" />
+                <SubMenuLink to="/admin/role-permissions" label="Roles & Permissions" />
                 <SubMenuLink to="/admin/add-user" label="Add New User" />
                 <SubMenuLink to="/admin/user-logs" label="Activity Logs" />
               </CollapsibleMenu>

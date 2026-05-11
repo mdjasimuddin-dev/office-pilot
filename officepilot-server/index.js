@@ -197,6 +197,22 @@ async function run() {
       }
     });
 
+
+    app.get("/all-users", async (req, res) => {
+      try {
+        const result = await userCollections.find().toArray();
+
+        if (!result) {
+          return res.status(404).send({ message: "No users data found" });
+        }
+
+        res.status(200).send(result);
+      } catch (error) {
+        console.error("Something is wrong:", error);
+        res.status(404).send({ message: "Something is wrong:" });
+      }
+    });
+
     //1. leader add
     //2. leader remove
     //3. Notice Apporve

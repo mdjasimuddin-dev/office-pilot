@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { FaRocket, FaLock } from "react-icons/fa";
 import { SiWordpress } from "react-icons/si";
 import Swal from "sweetalert2";
-import axios from "axios";
+import useAxiosSecure from "../../../../Hooks/AxiosSecure";
+
 
 const departmentData = [
   { id: 1, department: "Wordpress" },
@@ -78,6 +79,7 @@ const initialFormData = {
 export default function AddProject() {
   const [formData, setFormData] = useState(initialFormData);
   const [availableLeaders, setAvailableLeaders] = useState([]);
+  const axiosSecure = useAxiosSecure()
 
   // যেকোনো nested বা flat field update করে
   const handleInputChange = (path, value) => {
@@ -142,8 +144,8 @@ export default function AddProject() {
     e.preventDefault();
     console.log("submitted data: ",formData)
     try {
-      const res = await axios.post(
-        `http://localhost:3000/add-project`,
+      const res = await axiosSecure.post(
+        `/add-project`,
         formData
       );
       console.log("Project added:", res.data);

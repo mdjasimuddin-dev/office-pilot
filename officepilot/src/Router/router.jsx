@@ -21,6 +21,10 @@ import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/Register/Signup";
 
 import NewAdminDashboard from "./../Pages/Home/NewAdminDashboard";
+import UserList from "../Pages/Dashboard/Usermanagement/UserList";
+import AddUser from "../Pages/Dashboard/Usermanagement/AddUser";
+import ProjectTimeline from "../Pages/Dashboard/Project/ProjectTimeLine/ProjectTimeLine";
+import UpdateProject from "./../Pages/Dashboard/Project/UpdateProject/UpdateProject";
 
 // const router = createBrowserRouter([
 //   // common route member
@@ -262,6 +266,24 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+
+      {
+        path: "all-users",
+        element: (
+          <ProtectedRoute>
+            <UserList />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "add-user",
+        element: (
+          <ProtectedRoute>
+            <AddUser />
+          </ProtectedRoute>
+        ),
+      },
       {
         path: "projects",
         element: (
@@ -271,6 +293,44 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "project-details/:id",
+        element: (
+          <ProtectedRoute>
+            <ProjectDetails />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "project-timeline",
+        element: (
+          <ProtectedRoute>
+            <ProjectTimeline />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: "add-new-project",
+        element: (
+          <ProtectedRoute>
+            <AddProject />
+          </ProtectedRoute>
+        ),
+      },
+
+
+      {
+        path: "update/:id",
+        element: (
+          <ProtectedRoute>
+            <ProjectUpdate />
+          </ProtectedRoute>
+        ),
+      },
+
+
+      {
         path: "employees/all-employees",
         element: (
           <ProtectedRoute>
@@ -278,6 +338,16 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+
+      {
+        path: "all-employee/:id",
+        element: (
+          <ProtectedRoute>
+            <Employees />
+          </ProtectedRoute>
+        ),
+      },
+      
     ],
   },
 

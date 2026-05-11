@@ -87,13 +87,13 @@ export default function Project() {
                   className="hover:bg-blue-50/50 transition-all border-b border-gray-100 w-full"
                 >
                   <td
-                    onClick={() => navigate(`/project-details/${project._id}`)}
+                    onClick={() => navigate(`admin/project-details/${project._id}`)}
                     className="font-bold cursor-pointer text-gray-400"
                   >
                     {project.projectId}
                   </td>
                   <td
-                    onClick={() => navigate(`/project-details/${project._id}`)}
+                    onClick={() => navigate(`/admin/project-details/${project._id}`)}
                     className="font-semibold cursor-pointer text-gray-800"
                   >
                     {project.clientInfo.name}
@@ -148,7 +148,7 @@ export default function Project() {
                     <div className="flex gap-3">
                       <button
                         onClick={() =>
-                          navigate(`/project-details/${project._id}`)
+                          navigate(`/admin/project-details/${project._id}`)
                         }
                         className="p-2 bg-gray-100 rounded-lg hover:bg-blue-500 hover:text-white transition-all"
                       >

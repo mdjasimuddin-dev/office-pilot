@@ -132,7 +132,7 @@ export default function ProjectDetails() {
           <div className="flex gap-2 mt-1">
             {/* Share Update — সব user দেখবে */}
             <button
-              onClick={() => navigate(`/update/${id}`)}
+              onClick={() => navigate(`/admin/update/${id}`)}
               className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all active:scale-95"
             >
               <FaPencilAlt size={12} /> Share Update
@@ -141,7 +141,7 @@ export default function ProjectDetails() {
             {CURRENT_USER_ROLE === "leader" && (
               <button
                 onClick={() =>
-                  navigate(`/all-employee/${project.projectId}`)
+                  navigate(`/admin/all-employee/${project.projectId}`)
                 }
                 className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all active:scale-95"
               >

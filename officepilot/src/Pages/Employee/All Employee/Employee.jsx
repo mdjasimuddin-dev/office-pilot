@@ -10,11 +10,14 @@ import EmployeeCard from "./../../../components/Employee/EmployeeCard";
 import MemberCard from "../../../components/Employee/MemberCard";
 import { useParams } from "react-router";
 import axios from "axios";
+import useAxiosSecure from "../../../Hooks/AxiosSecure";
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterDept, setFilterDept] = useState("All");
+
+  const axiosSecure = useAxiosSecure()
 
   const  projectId = useParams()
 
@@ -162,7 +165,7 @@ const Employees = () => {
     console.log(assignEmployee)
 
     try {
-        const res = await axios.patch(`http://localhost:3000/assign-project/${projectId.id}`,assignEmployee )
+        const res = await axiosSecure.patch(`/assign-project/${projectId.id}`,assignEmployee )
         console.log(res.data)
     } catch (error) {
         console.log(error)
